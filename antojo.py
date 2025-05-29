@@ -1,16 +1,20 @@
 from flask import Flask, render_template, url_for,request, redirect,flash
 from config import config
 from models.entities import User
-from models.ModelUser import ModelUser
+from models.entities.ModelUser import ModelUser
 from flask_mysqldb import MySQL
 from werkzeug.security import generate_password_hash
 from datetime import datetime
 from flask_login import login_user, LoginManager, logout_user
+from flask_mysqldb import MySQL
+
+
+
 antojo = Flask(__name__)
 db      = MySQL(antojo)
 adminSesion = LoginManager(antojo)
 
-adminSesion.user_loader
+@adminSesion.user_loader
 def load_user(id):
         return ModelUser.get_by_id(db,id)
 

@@ -15,4 +15,4 @@ class User(UserMixin):
     @classmethod
     def validarClave (self,claveCifrada,clave):
         return check_password_hash(claveCifrada,clave)
-    ####guda
+    ####guarda
