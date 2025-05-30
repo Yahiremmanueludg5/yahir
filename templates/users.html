@@ -1,4 +1,4 @@
-d{% extends 'layout.html' %}
+{% extends 'layout.html' %}
 {% block titulo %} bienvenido a perder el tiempo mother fucker {% endblock %}
 {% block contenido %}
 <nav class="navbar navbar-expand-lg bg-body-tertiary">
@@ -56,29 +56,36 @@ d{% extends 'layout.html' %}
           <th scope="col">FECHA</th>
           <th scope="col">PERFIL</th>
           <th scope="col" colspan="2">
-            
+             <!-- Button editar  -->
+               <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#Agregar">
+                <i class="fa-solid fa-plus"></i>
+                </button>
+          </th>
+        </tr>
+      </thead>
       
 
 <!-- Modal Agregar -->
-<div class="modal fade" id="staticBackdrop" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" aria-labelledby="staticBackdropLabel" aria-hidden="true">
+<div class="modal fade" id="Agregar" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" aria-labelledby="staticBackdropLabel" aria-hidden="true">
   <div class="modal-dialog">
     <div class="modal-content">
       <div class="modal-header">
         <h1 class="modal-title fs-5" id="staticBackdropLabel">Modal title</h1>
         <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
       </div>
+        <form action="/iUsuario" method="post" class="row g-3 needs-validation" novalidate>
+
       <div class="modal-body">
-        <form action="/signup" method="post" class="row g-3 needs-validation" novalidate>
           <div class="col-md-4">
             <label for="validationCustom01" class="form-label">Nombre</label>
-            <input type="text" name="nombre" class="form-control" id="validationCustom01" value="Mark" required>
+            <input type="text" name="nombre" class="form-control" id="validationCustom01" required>
             <div class="valid-feedback">
               Looks good!
             </div>
           </div>
           <div class="col-md-4">
             <label for="validationCustom02" class="form-label">Correo electronico</label>
-            <input type="email" name="correo" class="form-control" id="validationCustom02" value="Otto" required>
+            <input type="email" name="correo" class="form-control" id="validationCustom02" required>
             <div class="valid-feedback">
               Looks good!
             </div>
@@ -128,20 +135,17 @@ d{% extends 'layout.html' %}
               </div>
             </div>
           </div>
-          <div class="col-12">
-            <button class="btn btn-primary" type="submit">Registrate</button>
-          </div>
-        </form>
       </div>
       <div class="modal-footer">
         <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
-        <button type="button" class="btn btn-primary">Understood</button>
+        <button type="submit" class="btn btn-primary">Understood</button>
       </div>
+    </form>
     </div>
   </div>
 </div>
       <tbody>
-        {% for u in usuario %}
+        {% for u in usuarios %}
         <tr>
           <th scope="row">{{u[0]}}</th>
           <td>{{u[1]}}</td>
@@ -151,27 +155,28 @@ d{% extends 'layout.html' %}
           <td>{{u[6]}}</td>
           <td>
                <!-- Button editar  -->
-               <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#staticBackdrop">
+               <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#Editar{{u[0]}}">
                 <i class="fa-solid fa-plus"></i>
                 </button>
           </td>
           <td>
             <!-- Button eliminar  -->
-            <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#staticBackdrop">
+            <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#Eliminar{{u[0]}}">
               <i class="fa-solid fa-trash"></i>
               </button>
             </td>  
         </tr>
         <!-- Modal editar -->
-<div class="modal fade" id="staticBackdrop" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" aria-labelledby="staticBackdropLabel" aria-hidden="true">
+<div class="modal fade" id="Editar{{u[0]}}" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" aria-labelledby="staticBackdropLabel" aria-hidden="true">
   <div class="modal-dialog">
     <div class="modal-content">
       <div class="modal-header">
         <h1 class="modal-title fs-5" id="staticBackdropLabel">Modal title</h1>
         <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
       </div>
-      <div class="modal-body">
         <form action="/uUsuario/{{u[0]}}" method="post" class="row g-3 needs-validation" novalidate>
+
+      <div class="modal-body">
           <div class="col-md-4">
             <label for="validationCustom01" class="form-label">Nombre</label>
             <input type="text" name="nombre" class="form-control" id="validationCustom01" value="{{u[1]}}" required>
@@ -205,7 +210,7 @@ d{% extends 'layout.html' %}
           </div>
           <div class="col-md-3">
             <label for="validationCustom04" class="form-label">State</label>
-            <select class="form-select" id="validationCustom04" required>
+            <select class="form-select" name="perfil" id="validationCustom04" required>
               <option selected disabled value="">Choose...</option>
               <option value="{{u[6]}}" selected>
                 {% if u[6] == 'A' %}
@@ -239,22 +244,20 @@ d{% extends 'layout.html' %}
               </div>
             </div>
           </div>
-          <div class="col-12">
-            <button class="btn btn-primary" type="submit">Registrate</button>
-          </div>
-        </form>
       </div>
       <div class="modal-footer">
         <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
-        <button type="button" class="btn btn-primary">Understood</button>
+        <button type="submit" class="btn btn-primary">Guardar cambios</button>
       </div>
+        </form>
+    </div>
     </div>
   </div>
 </div>
 
 
 <!-- Modal eliminar -->
-<div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+<div class="modal fade" id="Eliminar{{u[0]}}" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
   <div class="modal-dialog">
     <div class="modal-content">
       <div class="modal-header">
@@ -264,13 +267,13 @@ d{% extends 'layout.html' %}
       <form action="/dUsuario/{{u[0]}}" method="post">
       <div class="modal-body">
         <i class="fa-solid fa-triangle-exclamation"></i>
-        <p>¿estas seguro que quieres eliminar el usuario?</p>
+        <p>¿estas seguro que quieres eliminar el usuario {{u[1]}} ?</p>
       </div>
-    </form>
       <div class="modal-footer">
         <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
-        <button type="button" class="btn btn-primary">Save changes</button>
+        <button type="submit" class="btn btn-primary">Eliminar</button>
       </div>
+      </form>
     </div>
   </div>
 </div>
